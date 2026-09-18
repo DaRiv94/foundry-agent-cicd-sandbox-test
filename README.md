@@ -226,7 +226,7 @@ Mac / Linux (Bash)
 ./scripts/99_teardown.sh
 ```
 
-The script lists what it will remove, asks you to type DELETE, then deletes the three agents, the `chat-model` deployment, and the pipeline identity with its role grant. Your resource group, Foundry account and project stay. Never delete the resource group; it holds your whole sandbox. The GitHub repo and its Environments stay and cost nothing.
+The script lists what it will remove, asks you to type DELETE, then deletes the three agents and the pipeline identity with its role grant. It tries to delete the `chat-model` deployment too, but your Foundry account carries a lock that blocks that for you, so the deployment stays. It costs nothing while idle, and Frankie removes it when your sandbox is torn down. Your resource group, Foundry account and project stay. Never delete the resource group; it holds your whole sandbox. The GitHub repo and its Environments stay and cost nothing.
 
 ## Troubleshooting
 
