@@ -51,8 +51,9 @@ Write-Host "Wrote FOUNDRY_ACCOUNT and FOUNDRY_PROJECT into .env"
 # 4. the evaluation gate runs inside Foundry as the PROJECT's identity, which needs Foundry User
 #    on the account. Most sandboxes already have this from Week 2; grant it only if missing.
 $foundryUserRoleId = "53ca6127-db72-4b80-b1b0-d745d6d5456d"
-$existing = az role assignment list --assignee-object-id $projectPrincipalId --scope $account.id --role $foundryUserRoleId --query "length(@)" -o tsv --only-show-errors
-if ([int]$existing -gt 0) {
+# (no "length(@)" in the query: the parentheses break az.cmd on Windows)
+$existing = @(az role assignment list --assignee-object-id $projectPrincipalId --scope $account.id --role $foundryUserRoleId --query "[].id" -o tsv --only-show-errors)
+if ($existing.Count -gt 0) {
     Write-Host "Project identity already holds Foundry User on the account."
 } else {
     az role assignment create --assignee-object-id $projectPrincipalId --assignee-principal-type ServicePrincipal `

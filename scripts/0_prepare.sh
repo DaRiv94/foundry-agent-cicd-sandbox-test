@@ -53,7 +53,7 @@ echo "Wrote FOUNDRY_ACCOUNT and FOUNDRY_PROJECT into .env"
 #    on the account. Most sandboxes already have this from Week 2; grant it only if missing.
 foundry_user="53ca6127-db72-4b80-b1b0-d745d6d5456d"
 existing="$(MSYS_NO_PATHCONV=1 az role assignment list --assignee-object-id "$project_principal" --scope "$account_id" \
-  --role "$foundry_user" --query "length(@)" -o tsv --only-show-errors)"
+  --role "$foundry_user" --query "[].id" -o tsv --only-show-errors | grep -c . || true)"
 if [[ "${existing:-0}" -gt 0 ]]; then
   echo "Project identity already holds Foundry User on the account."
 else
